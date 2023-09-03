@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\CommentApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+
+    // # comment section
+    Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
+        Route::post('/store/{product}', [CommentApiController::class, 'store']);
+        Route::post('/reply/{comment}', [CommentApiController::class, 'reply']);
+    });
 });
