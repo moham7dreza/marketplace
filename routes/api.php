@@ -31,6 +31,7 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function () {
     Route::prefix('products')->group(function () {
         Route::post('/store', [ProductApiController::class, 'store']);
         Route::get('/search', [ProductApiController::class, 'search']);
+        Route::get('/filter', [ProductApiController::class, 'filter']);
         Route::delete('/destroy/{product}', [ProductApiController::class, 'destroy']);
     });
 

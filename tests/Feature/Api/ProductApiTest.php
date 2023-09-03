@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SortEnum;
 use App\Models\Product;
 
 it('add product', function () {
@@ -19,6 +20,18 @@ it('search products', function () {
     $response = $this->getJson("/api/v1/products/search", $data);
     dump($response);
     $response->assertStatus(201)->assertJson(['status' => 'search in products']);
+});
+
+it('filter products', function () {
+    $data = [
+        'sort' => SortEnum::random(),
+        'search' => fake()->jobTitle,
+        'min_price' => fake()->numberBetween(1000, 9999),
+        'max_price' => fake()->numberBetween(10000, 99999),
+    ];
+    $response = $this->getJson("/api/v1/products/filter", $data);
+    dump($response);
+    $response->assertStatus(201)->assertJson(['status' => 'filter in products']);
 });
 
 it('destroy product', function () {

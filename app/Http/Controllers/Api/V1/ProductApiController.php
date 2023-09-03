@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductFilterRequest;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductSearchRequest;
 use App\Http\Resources\ProductResource;
@@ -42,11 +43,24 @@ class ProductApiController extends Controller
 
     public function search(ProductSearchRequest $request): JsonResponse
     {
-        $products = $this->service->search($request->key)->get();
+        $products = $this->service->search($request->key)->paginate(12);
 
         return response()->json([
             'status' => 'success',
             'message' => 'search in products',
+            'data' => ProductResource::collection($products)->response()->getData(true),
+        ], 201);
+    }
+
+    public function filter(ProductFilterRequest $request): JsonResponse
+    {
+        $products = $this->service->filter($request)
+            ->paginate(12)
+            ->appends($request->query());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'filter in products',
             'data' => ProductResource::collection($products)->response()->getData(true),
         ], 201);
     }
