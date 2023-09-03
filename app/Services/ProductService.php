@@ -19,6 +19,11 @@ class ProductService
         ]);
     }
 
+    public function search($key): Builder
+    {
+        return $this->query()->where('title', 'like', "%{$key}%");
+    }
+
     private function query(): Builder
     {
         return Product::query();

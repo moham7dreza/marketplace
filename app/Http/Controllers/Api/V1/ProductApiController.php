@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductSearchRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
@@ -36,6 +37,17 @@ class ProductApiController extends Controller
             'status' => 'success',
             'message' => 'product destroyed successfully',
             'data' => [],
+        ], 201);
+    }
+
+    public function search(ProductSearchRequest $request): JsonResponse
+    {
+        $products = $this->service->search($request->key)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'search in products',
+            'data' => ProductResource::collection($products)->response()->getData(true),
         ], 201);
     }
 }
