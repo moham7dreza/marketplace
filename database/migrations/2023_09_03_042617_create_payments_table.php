@@ -18,7 +18,7 @@ return new class extends Migration
             $table->tinyInteger('status')->unsigned();//PaymentStatusEnum
             $table->tinyInteger('type')->unsigned();//PaymentTypeEnum
             $table->tinyInteger('gateway')->unsigned()->nullable();//PaymentGatewayEnum
-            $table->timestamp('pay_at');
+            $table->timestamp('pay_at')->nullable();
             $table->string('transaction_id')->nullable();
             $table->json('details')->nullable();
             $table->index(['status', 'type', 'gateway']);

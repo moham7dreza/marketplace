@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\CartItemApiController;
 use App\Http\Controllers\Api\V1\CommentApiController;
 use App\Http\Controllers\Api\V1\OrderApiController;
+use App\Http\Controllers\Api\V1\PaymentApiController;
 use App\Http\Controllers\Api\V1\ProductApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,27 +18,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->middleware(['auth:sanctum'])->group(function () {
 
     // # comment section
-    Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('comments')->group(function () {
         Route::post('/store/{product}', [CommentApiController::class, 'store']);
         Route::post('/reply/{comment}', [CommentApiController::class, 'reply']);
     });
 
     // # product section
-    Route::prefix('products')->middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('products')->group(function () {
         Route::post('/store', [ProductApiController::class, 'store']);
         Route::delete('/destroy/{product}', [ProductApiController::class, 'destroy']);
     });
 
     // # cart item section
-    Route::prefix('cart-items')->middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('cart-items')->group(function () {
         Route::post('/store/{product}', [CartItemApiController::class, 'store']);
     });
 
     // # order section
-    Route::prefix('orders')->middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('orders')->group(function () {
         Route::post('/store', [OrderApiController::class, 'store']);
+    });
+
+    // # payment section
+    Route::prefix('payments')->group(function () {
+        Route::post('/store', [PaymentApiController::class, 'store']);
     });
 });
