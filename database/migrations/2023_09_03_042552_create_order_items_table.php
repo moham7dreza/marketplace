@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('product_id');
             $table->integer('number')->unsigned();
             $table->decimal('amount', 20, 3)->unsigned();
+            $table->decimal('delivery_amount', 20, 3)->unsigned()->default(0);
+            $table->decimal('final_amount', 20, 3)->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
