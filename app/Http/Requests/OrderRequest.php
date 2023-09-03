@@ -12,7 +12,7 @@ class OrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'delivery_id' => 'nullable|exists:delivery,id'
         ];
     }
 }

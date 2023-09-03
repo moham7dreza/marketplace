@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\CartItemApiController;
 use App\Http\Controllers\Api\V1\CommentApiController;
+use App\Http\Controllers\Api\V1\OrderApiController;
 use App\Http\Controllers\Api\V1\ProductApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,5 +34,10 @@ Route::prefix('v1')->group(function () {
     // # cart item section
     Route::prefix('cart-items')->middleware(['auth:sanctum'])->group(function () {
         Route::post('/store/{product}', [CartItemApiController::class, 'store']);
+    });
+
+    // # order section
+    Route::prefix('orders')->middleware(['auth:sanctum'])->group(function () {
+        Route::post('/store', [OrderApiController::class, 'store']);
     });
 });

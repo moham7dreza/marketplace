@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('payment_id')->nullable();
             $table->foreignId('delivery_id')->nullable();
             $table->tinyInteger('status')->unsigned()->index();
-            $table->decimal('amount', 20, 3)->unsigned();
+            $table->decimal('amount', 20, 3)->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

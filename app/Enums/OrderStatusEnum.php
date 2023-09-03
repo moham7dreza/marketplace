@@ -8,9 +8,9 @@ enum OrderStatusEnum: int
 {
     use EnumDataListTrait;
 
-    case not_checked = 0;
+    case unchecked = 0;
     case await_confirm = 1;
-    case not_confirmed = 2;
+    case unconfirmed = 2;
     case confirmed = 3;
     case canceled = 4;
     case returned = 5;
