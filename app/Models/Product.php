@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title', 'price'
+        'title', 'price', 'approved', 'user_id'
     ];
 
     public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -27,5 +27,10 @@ class Product extends Model
     public function delivery(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(ItemDelivery::class);
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
