@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('pay_at');
             $table->string('transaction_id')->nullable();
             $table->json('details')->nullable();
+            $table->index(['status', 'type', 'gateway']);
             $table->timestamps();
             $table->softDeletes();
         });
