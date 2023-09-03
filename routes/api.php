@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\CommentApiController;
+use App\Http\Controllers\Api\V1\ProductApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,11 @@ Route::prefix('v1')->group(function () {
     Route::prefix('comments')->middleware(['auth:sanctum'])->group(function () {
         Route::post('/store/{product}', [CommentApiController::class, 'store']);
         Route::post('/reply/{comment}', [CommentApiController::class, 'reply']);
+    });
+
+    // # product section
+    Route::prefix('products')->middleware(['auth:sanctum'])->group(function () {
+        Route::post('/store', [ProductApiController::class, 'store']);
+        Route::delete('/destroy/{product}', [ProductApiController::class, 'destroy']);
     });
 });
