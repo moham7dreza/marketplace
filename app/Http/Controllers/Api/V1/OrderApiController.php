@@ -6,5 +6,8 @@ use App\Http\Controllers\Controller;
 
 class OrderApiController extends Controller
 {
+    public function store()
+    {
 
+    }
 }
