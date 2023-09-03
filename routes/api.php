@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\CartItemApiController;
 use App\Http\Controllers\Api\V1\CommentApiController;
+use App\Http\Controllers\Api\V1\ImageApiController;
 use App\Http\Controllers\Api\V1\OrderApiController;
 use App\Http\Controllers\Api\V1\PaymentApiController;
 use App\Http\Controllers\Api\V1\ProductApiController;
@@ -45,5 +46,10 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function () {
     // # payment section
     Route::prefix('payments')->group(function () {
         Route::post('/store', [PaymentApiController::class, 'store']);
+    });
+
+    // # image section
+    Route::prefix('images')->group(function () {
+        Route::post('/store/{product}', [ImageApiController::class, 'store']);
     });
 });
