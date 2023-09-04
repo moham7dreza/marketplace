@@ -2,11 +2,12 @@
 
 use App\Models\Product;
 use App\Services\ShareService;
+use Illuminate\Http\UploadedFile;
 
 it('image upload', function () {
     $product = Product::factory()->create();
     $data = [
-        'image' => '',
+        'image' => UploadedFile::fake()->image('image.png'),
     ];
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . ShareService::brear_token,

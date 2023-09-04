@@ -6,6 +6,7 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentGatewayEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Enums\PaymentTypeEnum;
+use App\Events\SendEmailEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Resources\OrderResource;
@@ -46,6 +47,8 @@ class PaymentApiController extends Controller
 
         $this->orderService->addOrderItemsAndDeleteCartItems($order);
 
+        $this->sendEmailToAdmin($payment);
+
         return response()->json([
             'status' => 'success',
             'message' => 'payment submitted successfully',
@@ -54,5 +57,14 @@ class PaymentApiController extends Controller
                 'payment' => new PaymentResource($order),
             ],
         ], 201);
+    }
+
+
+    public function sendEmailToAdmin($payment): void
+    {
+        $body = 'new order submitted';
+        $subject = $payment->user->name . ' submitted new order with amount of ' . $payment->amount . ', which state of payment is ' . $payment->status->value . ' and pay time is ' . $payment->pay_at;
+
+        event(new SendEmailEvent(subject: $subject, body: $body));
     }
 }
