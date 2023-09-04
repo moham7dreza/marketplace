@@ -59,28 +59,7 @@ class ImageService extends ImageToolsService
             $this->getImageName() ?? $this->setImageName(time());
         $imageName = $this->getImageName();
 
-        $indexArray = [];
-        foreach ($imageSizes as $sizeAlias => $imageSize) {
-            //create and set this size name
-            $currentImageName = $imageName . '_' . $sizeAlias;
-            $this->setImageName($currentImageName);
-
-            //execute provider
-            $this->provider();
-
-            //save image
-            $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
-            if ($result)
-                $indexArray[$sizeAlias] = $this->getImageAddress();
-            else {
-                return false;
-            }
-        }
-        $images['indexArray'] = $indexArray;
-        $images['directory'] = $this->getFinalImageDirectory();
-        $images['currentImage'] = Config::get('image.default-current-index-image');
-
-        return $images;
+        return $this->images($imageSizes, $imageName, $image);
     }
 
     /**
@@ -122,5 +101,37 @@ class ImageService extends ImageToolsService
             }
         }
         return rmdir($directory);
+    }
+
+    /**
+     * @param mixed $imageSizes
+     * @param mixed $imageName
+     * @param $image
+     * @return array|false
+     */
+    public function images(mixed $imageSizes, mixed $imageName, $image): array|false
+    {
+        $indexArray = [];
+        foreach ($imageSizes as $sizeAlias => $imageSize) {
+            //create and set this size name
+            $currentImageName = $imageName . '_' . $sizeAlias;
+            $this->setImageName($currentImageName);
+
+            //execute provider
+            $this->provider();
+
+            //save image
+            $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
+            if ($result)
+                $indexArray[$sizeAlias] = $this->getImageAddress();
+            else {
+                return false;
+            }
+        }
+        $images['indexArray'] = $indexArray;
+        $images['directory'] = $this->getFinalImageDirectory();
+        $images['currentImage'] = Config::get('image.default-current-index-image');
+
+        return $images;
     }
 }

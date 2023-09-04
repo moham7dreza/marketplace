@@ -28,15 +28,25 @@ class ImageCacheService
                 return $image->make($imagePath)->fit($width, $height);
             }, Config::get('image-cache-life-time'), true);
         } else {
-            $img = Image::canvas($width, $height, '#cdcdcd')->text('image not found - 404', $width / 2, $height / 2, function ($font) {
-
-                $font->color('#333333');
-                $font->align('center');
-                $font->valign('center');
-                $font->file(public_path('admin-assets/fonts/IRANSans/IRANSansWeb.woff'));
-                $font->size(24);
-            });
+            $img = $this->getImg($width, $height);
         }
         return $img->response();
+    }
+
+    /**
+     * @param mixed $width
+     * @param mixed $height
+     * @return \Intervention\Image\Image
+     */
+    public function getImg(mixed $width, mixed $height): \Intervention\Image\Image
+    {
+        return Image::canvas($width, $height, '#cdcdcd')->text('image not found - 404', $width / 2, $height / 2, function ($font) {
+
+            $font->color('#333333');
+            $font->align('center');
+            $font->valign('center');
+            $font->file(public_path('admin-assets/fonts/IRANSans/IRANSansWeb.woff'));
+            $font->size(24);
+        });
     }
 }
