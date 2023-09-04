@@ -30,26 +30,12 @@ class ProductService
         if (!$items) {
             $items = $this->query();
         }
-
-        //switch for set sort for filtering
-        $items = match ($request->sort) {
-            SortEnum::most_expensive->value => $items->orderBy('price', 'desc'),
-            SortEnum::latest->value => $items->latest(),
-            SortEnum::cheapest->value => $items->orderBy('price'),
-            SortEnum::oldest->value => $items->oldest(),
-            SortEnum::fastest_delivery->value => $items->whereHas('delivery', function (Builder $builder) {
-                $builder->orderBy('delivery_time', 'desc');
-            }),
-            default => $items->orderBy('created_at'),
-        };
+        $items = $this->getItems($request, $items);
 
         return $items
             // when search for key
             ->when($request->search, function ($items) use ($request) {
                 $items->where('title', 'like', "%{$request->search}%");
-            })
-            ->when($request->max_price && $request->min_price, function ($items) use ($request) {
-                $items->whereBetween('price', [$request->min_price, $request->max_price]);
             })
             ->when($request->min_price, function ($items) use ($request) {
                 $items->where('price', '>=', $request->min_price);
@@ -62,5 +48,25 @@ class ProductService
     private function query(): Builder
     {
         return Product::query();
+    }
+
+    /**
+     * @param $request
+     * @param mixed $items
+     * @return mixed
+     */
+    public function getItems($request, mixed $items): mixed
+    {
+//switch for set sort for filtering
+        return match ($request->sort) {
+            SortEnum::most_expensive->value => $items->orderBy('price', 'desc'),
+            SortEnum::latest->value => $items->latest(),
+            SortEnum::cheapest->value => $items->orderBy('price'),
+            SortEnum::oldest->value => $items->oldest(),
+            SortEnum::fastest_delivery->value => $items->whereHas('delivery', function (Builder $builder) {
+                $builder->orderBy('delivery_time', 'desc');
+            }),
+            default => $items->orderBy('created_at'),
+        };
     }
 }

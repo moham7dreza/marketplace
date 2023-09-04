@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductFilterRequest;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -18,6 +19,19 @@ class ProductApiController extends Controller
     public function __construct(ProductService $service)
     {
         $this->service = $service;
+    }
+
+    public function index(ProductFilterRequest $request): JsonResponse
+    {
+        $products = resolve(ProductService::class)->filter($request)
+            ->paginate(12)
+            ->appends($request->query());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'products index',
+            'data' => ProductResource::collection($products)->response()->getData(true),
+        ], 201);
     }
 
     public function store(ProductRequest $request): JsonResponse

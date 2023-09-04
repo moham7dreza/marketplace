@@ -17,7 +17,7 @@ it('add product', function () {
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'product created successfully']);
 });
 
-it('filter products', function () {
+it('products index', function () {
     $data = [
         'sort' => SortEnum::random()->value,
         'search' => fake()->jobTitle,
@@ -27,9 +27,9 @@ it('filter products', function () {
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . ShareService::brear_token,
         'Accept' => 'application/json',
-    ])->getJson("/api/v1/products/filter", $data);
+    ])->getJson("/api/v1/products/index", $data);
     print_head($response);
-    $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'filter in products']);
+    $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'products index']);
 });
 
 it('destroy product', function () {
