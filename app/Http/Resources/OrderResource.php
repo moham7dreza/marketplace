@@ -18,8 +18,8 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => new UserResource($this->user),
-            'payment' => new UserResource($this->payment),
-            'delivery' => new UserResource($this->delivery),
+            'payment' => new PaymentResource($this->payment),
+            'delivery' => new DeliveryResource($this->delivery),
             'status' => $this->status,
             'amount' => $this->amount,
             'created_at' => $this->created_at,

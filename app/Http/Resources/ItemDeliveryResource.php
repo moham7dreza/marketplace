@@ -18,7 +18,7 @@ class ItemDeliveryResource extends JsonResource
         return [
             'id' => $this->id,
             'delivery' => new DeliveryResource($this->delivery),
-            'product' => new DeliveryResource($this->product),
+            'product' => new ProductResource($this->product),
             'amount' => $this->amount,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

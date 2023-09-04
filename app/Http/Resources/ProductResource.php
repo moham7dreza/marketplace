@@ -18,12 +18,12 @@ class ProductResource extends JsonResource
         return [
             'title' => $this->title,
             'price' => $this->price,
-            'user' => $this->user,
+            'user' => new UserResource($this->user),
             'approved' => $this->approved,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'comments' => CommentResource::collection($this->comments)->response()->getData(true),
-            'images' => ImageResource::collection($this->images)->response()->getData(true),
+//            'comments' => CommentResource::collection($this->comments)->response()->getData(true),
+//            'images' => ImageResource::collection($this->images)->response()->getData(true),
             'delivery' => new ItemDeliveryResource($this->delivery)
         ];
     }
