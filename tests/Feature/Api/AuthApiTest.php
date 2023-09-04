@@ -1,10 +1,11 @@
 <?php
 
 it('register user', function () {
+    $password = fake()->password;
     $data = [
         'name' => fake()->name,
         'email' => fake()->unique()->safeEmail,
-        'password' => fake()->password,
+        'password' => $password,
     ];
     $response = $this->postJson("/api/v1/register", $data);
     dump($response);

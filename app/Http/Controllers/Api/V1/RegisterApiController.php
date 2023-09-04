@@ -10,9 +10,9 @@ use Illuminate\Http\JsonResponse;
 
 class RegisterApiController extends Controller
 {
-    public function index(RegisterRequest $request): JsonResponse
+    public function index(RegisterRequest $request, UserService $userService): JsonResponse
     {
-        $user = resolve(UserService::class)->register($request);
+        $user = $userService->register($request);
         return response()->json([
             'status' => 'success',
             'message' => 'user created successfully',
