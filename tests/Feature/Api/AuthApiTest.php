@@ -18,5 +18,5 @@ it('login user', function () {
     ];
     $response = $this->postJson("/api/v1/login", $data);
     dump($response);
-    $response->assertStatus(201)->assertJson(['status' => 'user login successfully']);
+    $response->assertStatus(201)->assertJson(['status' => 'login successfully']);
 });
