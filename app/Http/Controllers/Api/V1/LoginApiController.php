@@ -17,7 +17,7 @@ class LoginApiController extends Controller
                 'status' => 'success',
                 'message' => 'failed to login',
                 'data' => [],
-            ], 201);
+            ], 401);
         }
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
         Auth::login($user);
@@ -25,6 +25,17 @@ class LoginApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'login successfully',
+            'data' => [],
+        ], 201);
+    }
+
+    public function logout(): JsonResponse
+    {
+        auth()->logout();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'logout successfully',
             'data' => [],
         ], 201);
     }

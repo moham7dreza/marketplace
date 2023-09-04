@@ -13,7 +13,7 @@ class UserService
         if (empty($user)) {
             $user = $this->store($request);
         }
-        $token = $user->createToken($user->name)->plainTextToken;
+        $token = $user->createToken($user->name)->accessToken;
         $user->update(['remember_token' => $token]);
         auth()->login($user);
         return $user;

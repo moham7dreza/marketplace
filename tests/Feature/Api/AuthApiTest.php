@@ -20,3 +20,9 @@ it('login user', function () {
     dump($response);
     $response->assertStatus(201)->assertJson(['status' => 'login successfully']);
 });
+
+it('logout user', function () {
+    $response = $this->getJson("/api/v1/logout");
+    dump($response);
+    $response->assertStatus(201)->assertJson(['status' => 'logout successfully']);
+});
