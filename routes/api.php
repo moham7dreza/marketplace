@@ -34,8 +34,8 @@ Route::prefix('v1')->group(function () {
 
         // # product section
         Route::prefix('products')->group(function () {
-            Route::post('/store', [ProductApiController::class, 'store']);
             Route::get('/index', [ProductApiController::class, 'index']);
+            Route::post('/store', [ProductApiController::class, 'store']);
             Route::delete('/destroy/{product}', [ProductApiController::class, 'destroy']);
         });
 

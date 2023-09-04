@@ -30,19 +30,9 @@ class ProductService
         if (!$items) {
             $items = $this->query();
         }
-        $items = $this->getItems($request, $items);
+        $items = $this->sortItems($request, $items);
 
-        return $items
-            // when search for key
-            ->when($request->search, function ($items) use ($request) {
-                $items->where('title', 'like', "%{$request->search}%");
-            })
-            ->when($request->min_price, function ($items) use ($request) {
-                $items->where('price', '>=', $request->min_price);
-            })
-            ->when($request->max_price, function ($items) use ($request) {
-                $items->where('price', '<=', $request->max_price);
-            });
+        return $this->filterItems($items, $request);
     }
 
     private function query(): Builder
@@ -55,7 +45,7 @@ class ProductService
      * @param mixed $items
      * @return mixed
      */
-    public function getItems($request, mixed $items): mixed
+    public function sortItems($request, mixed $items): mixed
     {
 //switch for set sort for filtering
         return match ($request->sort) {
@@ -68,5 +58,25 @@ class ProductService
             }),
             default => $items->orderBy('created_at'),
         };
+    }
+
+    /**
+     * @param mixed $items
+     * @param $request
+     * @return mixed
+     */
+    public function filterItems(mixed $items, $request): mixed
+    {
+        return $items
+            // when search for key
+            ->when($request->search, function ($items) use ($request) {
+                $items->where('title', 'like', "%{$request->search}%");
+            })
+            ->when($request->min_price, function ($items) use ($request) {
+                $items->where('price', '>=', $request->min_price);
+            })
+            ->when($request->max_price, function ($items) use ($request) {
+                $items->where('price', '<=', $request->max_price);
+            });
     }
 }
