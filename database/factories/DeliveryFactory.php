@@ -12,6 +12,7 @@ class DeliveryFactory extends Factory
 
     public function definition(): array
     {
+        dump('Run Delivery Factory ...');
         return [
             'title' => $this->faker->jobTitle,
             'delivery_time' => $this->faker->numberBetween(1, 31)

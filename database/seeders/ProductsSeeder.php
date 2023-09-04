@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Comment;
-use App\Models\Delivery;
 use App\Models\Image;
 use App\Models\ItemDelivery;
 use App\Models\Product;
@@ -16,8 +15,6 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        Delivery::factory(5)->create();
-
         Product::factory(10)
             ->has(Image::factory(5))
             ->has(Comment::factory(5))

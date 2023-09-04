@@ -14,6 +14,7 @@ class CommentFactory extends Factory
 
     public function definition(): array
     {
+        dump('Run Comment Factory ...');
         return [
             'body' => $this->faker->text($this->faker->numberBetween(5, 255)),
             'parent_id' => $this->faker->boolean ? Comment::factory() : null,

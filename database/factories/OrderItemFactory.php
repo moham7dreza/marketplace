@@ -14,6 +14,7 @@ class OrderItemFactory extends Factory
 
     public function definition(): array
     {
+        dump('Run OrderItem Factory ...');
         return [
             'order_id' => Order::factory(),
             'product_id' => Product::factory(),

@@ -16,11 +16,11 @@ class PaymentFactory extends Factory
 
     public function definition(): array
     {
+        dump('Run Payment Factory ...');
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::query()->first() ?? User::factory(),
             'amount' => $this->faker->randomFloat(),
             'status' => OrderStatusEnum::random(),
-            'payment_id' => Payment::factory(),
             'type' => PaymentTypeEnum::random(),
             'gateway' => PaymentGatewayEnum::random(),
             'pay_at' => $this->faker->dateTime,

@@ -14,6 +14,7 @@ class CartItemFactory extends Factory
 
     public function definition(): array
     {
+        dump('Run CartItem Factory ...');
         return [
             'user_id' => User::factory(),
             'product_id' => Product::factory(),

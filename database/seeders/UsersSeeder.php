@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
     {
         User::factory(10)
             ->has(Order::factory(5)
-                ->has(OrderItem::factory(5))
+                ->has(OrderItem::factory(5), 'items')
             )
             ->has(Payment::factory(5))
             ->has(Comment::factory(5))
