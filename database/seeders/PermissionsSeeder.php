@@ -21,12 +21,12 @@ class PermissionsSeeder extends Seeder
 
         // all system permissions
         foreach (PermissionEnum::cases() as $permission) {
-            Permission::query()->create(['name' => $permission]);
+            Permission::query()->create(['name' => $permission, 'guard' => 'api']);
         }
 
         // all system roles
         foreach (RoleEnum::cases() as $role) {
-            Role::query()->create(['name' => $role]);
+            Role::query()->create(['name' => $role, 'guard' => 'api']);
         }
 
         $this->assignRoleToAdmin();
