@@ -13,6 +13,6 @@ it('add item to cart', function () {
         'Accept' => 'application/json',
     ])
         ->postJson("/api/v1/cart-items/store/{$product->id}", $data);
-//    dump($response);
+    print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'item added successfully']);
 });
