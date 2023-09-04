@@ -13,6 +13,6 @@ class Delivery extends Model
     protected $table = 'delivery';
 
     protected $fillable = [
-        'title', 'delivery_time'
+        'title', 'delivery_at'
     ];
 }

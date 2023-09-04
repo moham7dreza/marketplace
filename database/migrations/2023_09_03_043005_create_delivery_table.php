@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('delivery', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('delivery_time');
+            $table->timestamp('delivery_at');
             $table->timestamps();
         });
     }

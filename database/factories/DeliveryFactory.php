@@ -15,7 +15,7 @@ class DeliveryFactory extends Factory
         dump('Run Delivery Factory ...');
         return [
             'title' => $this->faker->jobTitle,
-            'delivery_time' => $this->faker->numberBetween(1, 31)
+            'delivery_at' => $this->faker->dateTime,
         ];
     }
 }
