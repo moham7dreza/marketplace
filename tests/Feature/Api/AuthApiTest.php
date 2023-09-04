@@ -14,8 +14,8 @@ it('register user', function () {
 
 it('login user', function () {
     $data = [
-        'email' => fake()->unique()->safeEmail,
-        'password' => fake()->password,
+        'email' => 'admin@admin.com',
+        'password' => 'admin',
     ];
     $response = $this->postJson("/api/v1/login", $data);
     dump($response);

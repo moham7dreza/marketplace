@@ -61,7 +61,7 @@ Route::prefix('v1')->group(function () {
     });
 
     // # auth section
-    Route::post('register', [RegisterApiController::class, 'index'])->middleware('guest');
-    Route::post('login', [LoginApiController::class, 'index'])->middleware('guest');
+    Route::post('register', [RegisterApiController::class, 'index']);
+    Route::post('login', [LoginApiController::class, 'index']);
     Route::get('logout', [LoginApiController::class, 'logout'])->middleware('auth');
 });

@@ -12,11 +12,14 @@ class RegisterApiController extends Controller
 {
     public function index(RegisterRequest $request, UserService $userService): JsonResponse
     {
-        $user = $userService->register($request);
+        $response = $userService->register($request);
         return response()->json([
             'status' => 'success',
             'message' => 'user created successfully',
-            'data' => new UserResource($user),
+            'data' => [
+                'user' => new UserResource($response['user']),
+                'token' => $response['token']
+            ],
         ], 201);
     }
 }
