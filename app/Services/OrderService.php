@@ -27,7 +27,7 @@ class OrderService
             $amount = $product->price * $item->number;
             if ($order->delivery_id) {
                 // additional delivery amount for every item
-                $deliveryAmount = $item->delivery->amount;
+                $deliveryAmount = $item->delivery ? $item->delivery->amount : 0;
                 $order->items()->create([
                     'product_id' => $item->product_id,
                     'amount' => $amount,

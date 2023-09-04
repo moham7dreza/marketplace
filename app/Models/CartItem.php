@@ -28,6 +28,6 @@ class CartItem extends Model
 
     public function delivery(): HasOneThrough
     {
-        return $this->hasOneThrough(ItemDelivery::class, Product::class);
+        return $this->hasOneThrough(ItemDelivery::class, Product::class, 'id', 'product_id', 'id', 'id');
     }
 }

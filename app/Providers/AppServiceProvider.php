@@ -23,17 +23,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->setGateBefore();
+//        $this->setGateBefore();
 
-        Gate::define('destroy-product', function (User $user, Product $product) {
-            return $user->id == $product->user_id;
-        });
+        $this->canDeleteProductGate();
     }
 
     private function setGateBefore(): void
     {
         Gate::before(static function ($user) {
             return $user->hasPermissionTo(PermissionEnum::super_admin->value);
+        });
+    }
+
+    private function canDeleteProductGate(): void
+    {
+        Gate::define('destroy-product', function (User $user, Product $product) {
+            return $user->id === $product->user_id;
         });
     }
 }

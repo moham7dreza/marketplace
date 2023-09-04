@@ -13,7 +13,7 @@ class PaymentService
     {
         return $this->query()->create([
             'user_id' => auth()->id(),
-            'amount' => $order->amount,
+            'amount' => $order->amount ?? 0,
             'status' => PaymentStatusEnum::not_paid->value,
             'type' => $request->type,
             'gateway' => $request->gateway,

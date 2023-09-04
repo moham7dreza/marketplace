@@ -32,7 +32,7 @@ class ProductApiController extends Controller
 
     public function destroy(Product $product): JsonResponse
     {
-        if (!Gate::allows('destroy-product')) {
+        if (!Gate::allows('destroy-product', $product)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'you can not delete this product',
