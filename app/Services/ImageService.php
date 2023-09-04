@@ -10,7 +10,7 @@ class ImageService
 {
     public function store($request, $model): Model|Builder|string
     {
-        $imageService = resolve(ImageService::class);
+        $imageService = resolve(\App\Services\Image\ImageService::class);
         if ($request->hasFile('image')) {
             $result = ShareService::createIndexAndSaveImage('products', $request->file('image'), $imageService);
             if (!$result) {

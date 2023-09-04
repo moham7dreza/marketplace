@@ -1,14 +1,18 @@
 <?php
 
 use App\Models\Product;
-use Illuminate\Http\UploadedFile;
+use App\Services\ShareService;
+use Illuminate\Http\Testing\File;
 
 it('image upload', function () {
     $product = Product::factory()->create();
     $data = [
-        'image' => UploadedFile::fake()->create('dasdad.png'),
+        'image' => File::image('image.png'),
     ];
-    $response = $this->postJson("/api/v1/images/store/{$product->id}", $data);
-    dump($response);
-    $response->assertStatus(201)->assertJson(['status' => 'image created successfully']);
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Accept' => 'application/json',
+    ])->postJson("/api/v1/images/store/{$product->id}", $data);
+    print_head($response);
+    $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'image created successfully']);
 });
