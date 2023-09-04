@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\CartItemApiController;
 use App\Http\Controllers\Api\V1\CommentApiController;
+use App\Http\Controllers\Api\V1\FilterApiController;
 use App\Http\Controllers\Api\V1\ImageApiController;
 use App\Http\Controllers\Api\V1\OrderApiController;
 use App\Http\Controllers\Api\V1\PaymentApiController;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->middleware(['auth:sanctum'])->group(function () {
+Route::prefix('v1')->middleware(['auth:api'])->group(function () {
 
     // # comment section
     Route::prefix('comments')->group(function () {
@@ -30,8 +31,7 @@ Route::prefix('v1')->middleware(['auth:sanctum'])->group(function () {
     // # product section
     Route::prefix('products')->group(function () {
         Route::post('/store', [ProductApiController::class, 'store']);
-        Route::get('/search', [ProductApiController::class, 'search']);
-        Route::get('/filter', [ProductApiController::class, 'filter']);
+        Route::get('/filter', [FilterApiController::class, 'index']);
         Route::delete('/destroy/{product}', [ProductApiController::class, 'destroy']);
     });
 
