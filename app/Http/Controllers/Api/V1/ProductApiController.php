@@ -8,6 +8,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class ProductApiController extends Controller
 {
@@ -31,6 +32,13 @@ class ProductApiController extends Controller
 
     public function destroy(Product $product): JsonResponse
     {
+        if (!Gate::allows('destroy-product')) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'you can not delete this product',
+                'data' => [],
+            ], 201);
+        }
         $product->delete();
         return response()->json([
             'status' => 'success',
