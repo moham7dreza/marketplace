@@ -28,40 +28,40 @@ Route::prefix('v1')->group(function () {
 
         // # comment section
         Route::prefix('comments')->group(function () {
-            Route::post('/store/{product}', [CommentApiController::class, 'store']);
-            Route::post('/reply/{comment}', [CommentApiController::class, 'reply']);
+            Route::post('/store/{product}', [CommentApiController::class, 'store'])->name('api.v1.comments.store');
+            Route::post('/reply/{comment}', [CommentApiController::class, 'reply'])->name('api.v1.comments.reply');
         });
 
         // # product section
         Route::prefix('products')->group(function () {
-            Route::get('/index', [ProductApiController::class, 'index']);
-            Route::post('/store', [ProductApiController::class, 'store']);
-            Route::delete('/destroy/{product}', [ProductApiController::class, 'destroy']);
+            Route::get('/index', [ProductApiController::class, 'index'])->name('api.v1.products.index');
+            Route::post('/store', [ProductApiController::class, 'store'])->name('api.v1.products.store');
+            Route::delete('/destroy/{product}', [ProductApiController::class, 'destroy'])->name('api.v1.products.destroy');
         });
 
         // # cart item section
         Route::prefix('cart-items')->group(function () {
-            Route::post('/store/{product}', [CartItemApiController::class, 'store']);
+            Route::post('/store/{product}', [CartItemApiController::class, 'store'])->name('api.v1.cart-items.store');
         });
 
         // # order section
         Route::prefix('orders')->group(function () {
-            Route::post('/store', [OrderApiController::class, 'store']);
+            Route::post('/store', [OrderApiController::class, 'store'])->name('api.v1.orders.store');
         });
 
         // # payment section
         Route::prefix('payments')->group(function () {
-            Route::post('/store', [PaymentApiController::class, 'store']);
+            Route::post('/store', [PaymentApiController::class, 'store'])->name('api.v1.payments.store');
         });
 
         // # image section
         Route::prefix('images')->group(function () {
-            Route::post('/store/{product}', [ImageApiController::class, 'store']);
+            Route::post('/store/{product}', [ImageApiController::class, 'store'])->name('api.v1.images.store');
         });
     });
 
     // # auth section
-    Route::post('register', [RegisterApiController::class, 'index']);
-    Route::post('login', [LoginApiController::class, 'index']);
-    Route::get('logout', [LoginApiController::class, 'logout'])->middleware('auth');
+    Route::post('register', [RegisterApiController::class, 'index'])->name('api.v1.register');
+    Route::post('login', [LoginApiController::class, 'index'])->name('api.v1.login');
+    Route::get('logout', [LoginApiController::class, 'logout'])->middleware('auth')->name('api.v1.logout');
 });
