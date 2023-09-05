@@ -1,14 +1,13 @@
 <?php
 
 it('register user', function () {
-    $password = fake()->password;
     $data = [
         'name' => fake()->name,
         'email' => fake()->unique()->safeEmail,
-        'password' => $password,
+        'password' => fake()->password,
     ];
     $response = $this->postJson("/api/v1/register", $data);
-    dump($response);
+    print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'user created successfully']);
 });
 
@@ -18,12 +17,12 @@ it('login user', function () {
         'password' => 'admin',
     ];
     $response = $this->postJson("/api/v1/login", $data);
-    dump($response);
+    print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'login successfully']);
 });
 
 it('logout user', function () {
     $response = $this->getJson("/api/v1/logout");
-    dump($response);
+    print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'logout successfully']);
 });
