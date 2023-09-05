@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Traits\FileUploadTrait;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class ShareService
 {
@@ -13,5 +15,12 @@ class ShareService
     public static function replaceNewLineWithTag($text): array|string
     {
         return str_replace(PHP_EOL, '<br/>', $text);
+    }
+
+    public static function sendInternalApiRequestAndGetResponse(string $route = null, array $params = [], string $url = null): mixed
+    {
+        $request = Request::create($url ?? route($route, $params), 'get');
+
+        return json_decode(Route::dispatch($request)->getContent());
     }
 }
