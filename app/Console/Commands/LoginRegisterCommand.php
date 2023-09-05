@@ -25,6 +25,6 @@ class LoginRegisterCommand extends Command
      */
     public function handle()
     {
-        //
+
     }
 }

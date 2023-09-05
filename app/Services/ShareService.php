@@ -17,9 +17,12 @@ class ShareService
         return str_replace(PHP_EOL, '<br/>', $text);
     }
 
-    public static function sendInternalApiRequestAndGetResponse(string $route = null, array $params = [], string $url = null): mixed
+    public static function sendInternalApiRequestAndGetResponse(string $route = null, array $params = [], string $url = null, $method = 'get', $token = ShareService::brear_token): mixed
     {
-        $request = Request::create($url ?? route($route, $params), 'get');
+        $request = Request::create($url ?? route($route, $params), $method, parameters: $params);
+
+        $request->headers->set('Authorization', 'Bearer ' . $token);
+        $request->headers->set('Accept', 'application/json');
 
         return json_decode(Route::dispatch($request)->getContent());
     }
