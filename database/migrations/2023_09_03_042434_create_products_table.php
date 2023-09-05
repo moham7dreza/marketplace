@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('title')->index();
             $table->decimal('price', 20, 3)->unsigned();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id')->nullable()->index();
             $table->tinyInteger('approved')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();

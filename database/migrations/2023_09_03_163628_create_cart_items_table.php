@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('product_id');
+            $table->foreignId('user_id')->index();
+            $table->foreignId('product_id')->index();
             $table->integer('number')->unsigned()->default(1);
             $table->timestamps();
             $table->softDeletes();

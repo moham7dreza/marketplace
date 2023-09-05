@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 20, 3);
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->index();
             $table->tinyInteger('status')->unsigned();//PaymentStatusEnum
             $table->tinyInteger('type')->unsigned();//PaymentTypeEnum
             $table->tinyInteger('gateway')->unsigned()->nullable();//PaymentGatewayEnum

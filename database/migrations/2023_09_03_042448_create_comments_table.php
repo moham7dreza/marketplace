@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('product_id');
+            $table->foreignId('user_id')->index();
+            $table->foreignId('product_id')->index();
             $table->foreignId('parent_id')->nullable();
             $table->text('body');
             $table->tinyInteger('seen')->unsigned();// StatusEnum

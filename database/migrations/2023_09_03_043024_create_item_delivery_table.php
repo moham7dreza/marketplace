@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('item_delivery', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
-            $table->foreignId('delivery_id');
+            $table->foreignId('product_id')->index();
+            $table->foreignId('delivery_id')->index();
             $table->decimal('amount', 20, 3)->unsigned();
             $table->timestamps();
             $table->softDeletes();
