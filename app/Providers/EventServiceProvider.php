@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Events\SendEmailEvent;
 use App\Listeners\SendEmailListener;
+use App\Models\ItemDelivery;
+use App\Observers\ItemDeliveryObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
         SendEmailEvent::class => [
             SendEmailListener::class,
         ],
+    ];
+
+    protected $observers = [
+        ItemDelivery::class => [ItemDeliveryObserver::class],
     ];
 
     /**
