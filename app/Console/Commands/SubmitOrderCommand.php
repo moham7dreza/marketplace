@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\PaymentGatewayEnum;
+use App\Enums\PaymentTypeEnum;
 use App\Models\ItemDelivery;
 use App\Models\Product;
 use App\Services\ShareService;
@@ -28,11 +30,25 @@ class SubmitOrderCommand extends Command
      */
     public function handle()
     {
-        $product = Product::factory()->create();
-//        $addProductToCart = ShareService::sendInternalApiRequestAndGetResponse(params: ['number' => 3], url: "/api/v1/cart-items/store/{$product->id}", method: 'post');
-        $delivery = ItemDelivery::factory()->create();
-        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(params: ['delivery_id' => $delivery->delivery_id], url: "/api/v1/orders/store", method: 'post');
+        $data = [
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => 'admin',
+        ];
+        $user = ShareService::sendInternalApiRequestAndGetResponse(setAuthHeaders: false, params: $data, url: "/api/v1/register", method: 'post');
 
-        dd($submitInitialOrder);
+        // add item to cart
+        $product = Product::factory()->create();
+        $data = ['number' => 3];
+//        $addProductToCart = ShareService::sendInternalApiRequestAndGetResponse(params: $data, url: "/api/v1/cart-items/store/{$product->id}", method: 'post');
+
+        // submit initial order
+        $delivery = ItemDelivery::factory()->create();
+        $data = ['delivery_id' => $delivery->delivery_id];
+        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(params: $data, url: "/api/v1/orders/store", method: 'post');
+
+        // pay section
+        $data = ['type' => PaymentTypeEnum::online->value, 'gateway' => PaymentGatewayEnum::zarin_pal->value];
+        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(params: $data, url: "/api/v1/payments/store", method: 'post');
     }
 }
