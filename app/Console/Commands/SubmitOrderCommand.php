@@ -32,11 +32,12 @@ class SubmitOrderCommand extends Command
     {
         $data = [
             'name' => 'admin',
-            'email' => 'admin@admin.com',
+            'email' => 'admin@admin2.com',
             'password' => 'admin',
         ];
-        $user = ShareService::sendInternalApiRequestAndGetResponse(setAuthHeaders: false, route: 'api.v1.register', params: $data, method: 'post');
-        dd($user);
+        $response = ShareService::sendHttpPostRequest('/api/v1/register', $data);
+
+        $user = ShareService::sendInternalApiRequestAndGetResponse(setAuthHeaders: false, params: $data, url: 'http://127.0.0.1:8001/api/v1/register', method: 'post');
         // add item to cart
         $product = Product::factory()->create();
         $data = ['number' => 3];

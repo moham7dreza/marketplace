@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 class ShareService
@@ -19,7 +20,7 @@ class ShareService
 
     public static function sendInternalApiRequestAndGetResponse($setAuthHeaders = true, string $route = null, array $params = [], string $url = null, $method = 'get', $token = ShareService::brear_token): mixed
     {
-        $request = Request::create(uri: $url ?? route($route), method: $method, parameters: $params);
+        $request = Request::create(uri: $url ?? route($route, $params), method: $method, parameters: $params);
 
         if ($setAuthHeaders) {
             $request->headers->set('Authorization', 'Bearer ' . $token);
@@ -27,5 +28,10 @@ class ShareService
         $request->headers->set('Accept', 'application/json');
 
         return json_decode(Route::dispatch($request)->getContent(), true);
+    }
+
+    public static function sendHttpPostRequest($url, $data)
+    {
+        return json_decode(Http::acceptJson()->post('http://127.0.0.1:8001' . $url, $data));
     }
 }
