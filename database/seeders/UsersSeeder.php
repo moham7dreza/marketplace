@@ -17,13 +17,13 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)
-            ->has(Order::factory(5)
-                ->has(OrderItem::factory(5), 'items')
+        User::factory(2)
+            ->has(Order::factory(2)
+                ->has(OrderItem::factory(2), 'items')
             )
-            ->has(Payment::factory(5))
-            ->has(Comment::factory(5))
-            ->has(CartItem::factory(5))
+            ->has(Payment::factory(2))
+            ->has(Comment::factory(2))
+            ->has(CartItem::factory(2))
             ->create();
     }
 }

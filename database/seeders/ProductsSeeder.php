@@ -15,10 +15,10 @@ class ProductsSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::factory(10)
-            ->has(Image::factory(5))
-            ->has(Comment::factory(5))
-            ->has(ItemDelivery::factory(5), 'delivery')
+        Product::factory(2)
+            ->has(Image::factory(2))
+            ->has(Comment::factory(2))
+            ->has(ItemDelivery::factory(), 'delivery')
             ->create();
     }
 }
