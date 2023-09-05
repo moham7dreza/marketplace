@@ -21,6 +21,6 @@ class SendEmailListener
     public function handle(object $event): void
     {
         $user = User::query()->first();
-        SendEmailJob::dispatch(emial: $user->email, title: $event->title, body: $event->body);
+        SendEmailJob::dispatch(email: $user->email, subject: $event->subject, body: $event->body);
     }
 }

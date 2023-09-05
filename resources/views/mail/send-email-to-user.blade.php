@@ -1,4 +1,4 @@
-@component('mail::message', ['class' => 'dir-rtl'])
+@component('mail::message')
     <section>
         <h1 style="text-align: center;">{{ $this->details['subject'] }}</h1>
         <p style="text-align: justify;direction: rtl;color: black;">{{ strip_tags($this->details['body']) }}</p>

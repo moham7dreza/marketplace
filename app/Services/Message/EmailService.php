@@ -16,7 +16,7 @@ class EmailService implements MessageInterface
     private $to;
     private $emailFiles;
 
-    public function fire()
+    public function fire(): void
     {
         Mail::to($this->to)->send(new MailViewProvider($this->details, $this->subject, $this->from, $this->emailFiles));
     }

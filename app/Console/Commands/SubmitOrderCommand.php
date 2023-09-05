@@ -30,26 +30,42 @@ class SubmitOrderCommand extends Command
      */
     public function handle()
     {
+        //******************************** register user and retrieve token
+
         $data = [
             'name' => 'admin',
-            'email' => 'admin@admin2.com',
+            'email' => fake()->unique()->email,
             'password' => 'admin',
         ];
-        $response = ShareService::sendHttpPostRequest('/api/v1/register', $data);
+        $registerUser = ShareService::sendHttpPostRequest('/api/v1/register', $data);
 
-        $user = ShareService::sendInternalApiRequestAndGetResponse(setAuthHeaders: false, params: $data, url: 'http://127.0.0.1:8001/api/v1/register', method: 'post');
-        // add item to cart
+        $token = $registerUser->data->token;
+
+        //******************************** add item to cart
+
         $product = Product::factory()->create();
+
         $data = ['number' => 3];
-//        $addProductToCart = ShareService::sendInternalApiRequestAndGetResponse(params: $data, url: "/api/v1/cart-items/store/{$product->id}", method: 'post');
 
-        // submit initial order
+        $cartItem = ShareService::sendHttpPostRequestWithAuth("/api/v1/cart-items/store/{$product->id}", $data, $token);
+        dump($cartItem);
+
+        //******************************** submit initial order for user
+
+        // if select a delivery method for shipping product
         $delivery = ItemDelivery::factory()->create();
-        $data = ['delivery_id' => $delivery->delivery_id];
-        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(route: 'api.v1.orders.store', params: $data, method: 'post');
 
-        // pay section
+        $data = ['delivery_id' => $delivery->delivery_id];
+
+        $order = ShareService::sendHttpPostRequestWithAuth("/api/v1/orders/store", $data, $token);
+        dump($order);
+        //******************************** pay user submitted order
+
         $data = ['type' => PaymentTypeEnum::online->value, 'gateway' => PaymentGatewayEnum::zarin_pal->value];
-        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(route: 'api.v1.payments.store', params: $data, method: 'post');
+
+        $payment = ShareService::sendHttpPostRequestWithAuth("/api/v1/payments/store", $data, $token);
+        dump($payment);
+
+        dump('Finish');
     }
 }
