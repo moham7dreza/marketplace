@@ -19,7 +19,7 @@ class ShareService
 
     public static function sendInternalApiRequestAndGetResponse($setAuthHeaders = true, string $route = null, array $params = [], string $url = null, $method = 'get', $token = ShareService::brear_token): mixed
     {
-        $request = Request::create(uri: $url ?? route($route, $params), method: $method, parameters: $params);
+        $request = Request::create(uri: $url ?? route($route), method: $method, parameters: $params);
 
         if ($setAuthHeaders) {
             $request->headers->set('Authorization', 'Bearer ' . $token);

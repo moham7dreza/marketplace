@@ -35,8 +35,8 @@ class SubmitOrderCommand extends Command
             'email' => 'admin@admin.com',
             'password' => 'admin',
         ];
-        $user = ShareService::sendInternalApiRequestAndGetResponse(setAuthHeaders: false, params: $data, url: "/api/v1/register", method: 'post');
-
+        $user = ShareService::sendInternalApiRequestAndGetResponse(setAuthHeaders: false, route: 'api.v1.register', params: $data, method: 'post');
+        dd($user);
         // add item to cart
         $product = Product::factory()->create();
         $data = ['number' => 3];
@@ -45,10 +45,10 @@ class SubmitOrderCommand extends Command
         // submit initial order
         $delivery = ItemDelivery::factory()->create();
         $data = ['delivery_id' => $delivery->delivery_id];
-        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(params: $data, url: "/api/v1/orders/store", method: 'post');
+        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(route: 'api.v1.orders.store', params: $data, method: 'post');
 
         // pay section
         $data = ['type' => PaymentTypeEnum::online->value, 'gateway' => PaymentGatewayEnum::zarin_pal->value];
-        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(params: $data, url: "/api/v1/payments/store", method: 'post');
+        $submitInitialOrder = ShareService::sendInternalApiRequestAndGetResponse(route: 'api.v1.payments.store', params: $data, method: 'post');
     }
 }
