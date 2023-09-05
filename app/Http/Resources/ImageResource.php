@@ -18,7 +18,7 @@ class ImageResource extends JsonResource
         return [
             'id' => $this->id,
             'image' => $this->image,
-            'product' => new ProductResource($this->product),
+//            'product' => new ProductResource($this->product),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Services\Image\ImageService;
+
 trait FileUploadTrait
 {
     // File upload
@@ -46,15 +48,12 @@ trait FileUploadTrait
     /**
      * @param string $directoryName
      * @param $imageFile
-     * @param $imageService
+     * @param ImageService $imageService
      * @return mixed
      */
-    public static function createIndexAndSaveImage(string $directoryName, $imageFile, $imageService): mixed
+    public static function createIndexAndSaveImage(string $directoryName, $imageFile, ImageService $imageService): mixed
     {
-        $directoryCreate = $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
-//        if (!$directoryCreate) {
-//            return 'directory creation failed';
-//        }
+        $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . $directoryName);
         return $imageService->createIndexAndSave($imageFile);
     }
 

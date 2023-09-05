@@ -121,7 +121,7 @@ class ImageService extends ImageToolsService
             $this->provider();
 
             //save image
-            $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
+            $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save($this->getImageAddress(), null, $this->getImageFormat());
             if ($result)
                 $indexArray[$sizeAlias] = $this->getImageAddress();
             else {
