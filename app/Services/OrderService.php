@@ -15,11 +15,25 @@ class OrderService
             'user_id' => auth()->id(),
             'status' => OrderStatusEnum::unchecked->value,
             'delivery_id' => $request->delivery_id,
+            'amount' => $this->calculateAmount(),
         ]);
+    }
+
+    private function calculateAmount(): int
+    {
+        $amount = 0;
+//        auth()->user()->cartItems->each(function ($item) use ($amount) {
+//            $amount += $item->product->price * $item->number;
+//        });
+        foreach (auth()->user()->cartItems as $item) {
+            $amount += $item->product->price * $item->number;
+        }
+        return $amount;
     }
 
     public function addOrderItemsAndDeleteCartItems($order): void
     {
+        $finalAmount = 0;
         // add cart items to order items and delete them
         foreach (auth()->user()->cartItems as $item) {
             $product = $item->product;
@@ -33,18 +47,22 @@ class OrderService
                     'amount' => $amount,
                     'number' => $item->number,
                     'delivery_amount' => $deliveryAmount,
-                    'final_amount' => $amount + $deliveryAmount
+                    'final_amount' => $finalAmount += $amount + $deliveryAmount
                 ]);
             } else {
                 $order->items()->create([
                     'product_id' => $item->product_id,
                     'amount' => $amount,
                     'number' => $item->number,
-                    'final_amount' => $amount,
+                    'final_amount' => $finalAmount += $amount,
                 ]);
             }
             $item->delete();
         }
+        $order->amount = $finalAmount;
+        $order->payment->amount = $finalAmount;
+        $order->save();
+        $order->payment->save();
     }
 
     public function findUserUncheckedOrder(): Model|Builder|null
