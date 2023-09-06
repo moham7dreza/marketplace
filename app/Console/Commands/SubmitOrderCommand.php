@@ -23,15 +23,37 @@ class SubmitOrderCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'order submit process';
 
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         //******************************** register user and retrieve token
 
+        $token = $this->getToken();
+
+        //******************************** add item to cart
+
+        $cartItem = $this->addItemToCart($token);
+
+        //******************************** submit initial order for user
+
+        $order = $this->submitOrder($token);
+
+        //******************************** pay user submitted order
+
+        $this->payment($token);
+
+        dump('Finish');
+    }
+
+    /**
+     * @return array
+     */
+    public function getToken(): array
+    {
         $data = [
             'name' => 'admin',
             'email' => fake()->unique()->email,
@@ -39,19 +61,30 @@ class SubmitOrderCommand extends Command
         ];
         $registerUser = ShareService::sendHttpPostRequest('/api/v1/register', $data);
 
-        $token = $registerUser->data->token;
+        return $registerUser->data->token;
+    }
 
-        //******************************** add item to cart
-
+    /**
+     * @param array $token
+     * @return int[]
+     */
+    public function addItemToCart(array $token): array
+    {
         $product = Product::factory()->create();
 
         $data = ['number' => 3];
 
         $cartItem = ShareService::sendHttpPostRequestWithAuth("/api/v1/cart-items/store/{$product->id}", $data, $token);
         dump($cartItem);
+        return $data;
+    }
 
-        //******************************** submit initial order for user
-
+    /**
+     * @param array $token
+     * @return array
+     */
+    public function submitOrder(array $token): array
+    {
         // if select a delivery method for shipping product
         $delivery = ItemDelivery::factory()->create();
 
@@ -59,13 +92,20 @@ class SubmitOrderCommand extends Command
 
         $order = ShareService::sendHttpPostRequestWithAuth("/api/v1/orders/store", $data, $token);
         dump($order);
-        //******************************** pay user submitted order
+        return $data;
+    }
 
+    /**
+     * @param array $token
+     * @return mixed
+     */
+    public function payment(array $token): mixed
+    {
         $data = ['type' => PaymentTypeEnum::online->value, 'gateway' => PaymentGatewayEnum::zarin_pal->value];
 
         $payment = ShareService::sendHttpPostRequestWithAuth("/api/v1/payments/store", $data, $token);
         dump($payment);
 
-        dump('Finish');
+        return $payment;
     }
 }

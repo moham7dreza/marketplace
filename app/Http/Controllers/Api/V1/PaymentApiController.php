@@ -11,8 +11,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\PaymentResource;
+use App\Models\Delivery;
+use App\Models\Order;
 use App\Services\OrderService;
 use App\Services\PaymentService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 
 class PaymentApiController extends Controller
@@ -30,6 +34,9 @@ class PaymentApiController extends Controller
     public function store(PaymentRequest $request): JsonResponse
     {
         $order = $this->orderService->findUserUncheckedOrder();
+        if (!$order) {
+            $order = $this->createTestOrder();
+        }
         $payment = $this->service->store($request, $order);
         $order->update([
             'status' => OrderStatusEnum::confirmed->value,
@@ -66,5 +73,18 @@ class PaymentApiController extends Controller
         $subject = $payment->user->name . ' submitted new order with amount of ' . $payment->amount . ', which state of payment is ' . $payment->status->value . ' and pay time is ' . $payment->pay_at;
 
         event(new SendEmailEvent(subject: $subject, body: $body));
+    }
+
+    /**
+     * @return Order|Collection|Model
+     */
+    public function createTestOrder(): Order|Collection|Model
+    {
+        $order = Order::factory()->create([
+            'user_id' => auth()->id(),
+            'delivery_id' => Delivery::factory()->create()->id,
+            'status' => OrderStatusEnum::unchecked->value,
+        ]);
+        return $order;
     }
 }
