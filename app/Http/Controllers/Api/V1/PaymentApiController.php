@@ -70,7 +70,7 @@ class PaymentApiController extends Controller
     public function sendEmailToAdmin($payment): void
     {
         $subject = 'new order submitted';
-        $body = $payment->user->name . ' submitted new order with amount of ' . $payment->amount . ', which state of payment is ' . PaymentStatusEnum::from($payment->status->value)->name . ' and pay time is ' . $payment->pay_at;
+        $body = $payment->user->name . ' submitted new order with amount of ' . number_format($payment->amount) . ', which state of payment is ' . PaymentStatusEnum::from($payment->status->value)->name . ' and pay time is ' . $payment->pay_at;
 
         event(new SendEmailEvent(subject: $subject, body: $body));
     }
@@ -80,11 +80,10 @@ class PaymentApiController extends Controller
      */
     public function createTestOrder(): Order|Collection|Model
     {
-        $order = Order::factory()->create([
+        return Order::factory()->create([
             'user_id' => auth()->id(),
             'delivery_id' => Delivery::factory()->create()->id,
             'status' => OrderStatusEnum::unchecked->value,
         ]);
-        return $order;
     }
 }

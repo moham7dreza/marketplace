@@ -2,11 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentGatewayEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Enums\PaymentTypeEnum;
 use App\Models\ItemDelivery;
+use App\Models\Order;
 use App\Models\Product;
 use App\Services\ShareService;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class SubmitOrderCommand extends Command
@@ -45,6 +49,10 @@ class SubmitOrderCommand extends Command
         //******************************** pay user submitted order
 
         $this->payment($token);
+
+        //******************************** total report
+
+        $this->report($order->data->id);
 
         dump('Finish');
     }
@@ -107,5 +115,21 @@ class SubmitOrderCommand extends Command
         dump($payment);
 
         return $payment;
+    }
+
+    private function report($order_id): void
+    {
+        $order = Order::query()->findOrFail($order_id);
+        $payment = $order->payment;
+        dump('Payment amount is : ' . number_format($payment->amount));
+        dump('Payment pay time : ' . Carbon::parse($payment->pay_at)->format('Y-m-d h:i:s'));
+        dump('Payment status is : ' . PaymentStatusEnum::from($payment->status->value)->name);
+        dump('Payment type is : ' . PaymentTypeEnum::from($payment->type->value)->name);
+        dump('Payment gateway is : ' . PaymentGatewayEnum::from($payment->gateway->value)->name);
+        dump('Order status is : ' . OrderStatusEnum::from($order->status->value)->name);
+        dump('Order items count : ' . $order->items->count());
+        dump('Order with delivery method : ' . ($order->delivery_id ? 'Yes' : 'No'));
+        dump('See you later ...');
+        dump('');
     }
 }
