@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Jobs\SendEmailJob;
-use App\Models\User;
+use App\Services\ShareService;
 
 class SendEmailListener
 {
@@ -20,7 +20,7 @@ class SendEmailListener
      */
     public function handle(object $event): void
     {
-        $user = User::query()->first();
-        SendEmailJob::dispatch(email: $user->email, subject: $event->subject, body: $event->body);
+        $admin = ShareService::findSystemAdmin();
+        SendEmailJob::dispatch(email: $admin->email, subject: $event->subject, body: $event->body);
     }
 }

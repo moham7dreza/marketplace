@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -42,5 +43,19 @@ class ShareService
                 ->withHeader('Authorization', 'Bearer ' . $token)
                 ->post('http://127.0.0.1:8000' . $url, $data)
         );
+    }
+
+    public static function findSystemAdmin()
+    {
+        $admin = User::query()->where('email', 'admin@admin.com')->first();
+
+        if (!$admin) {
+            $admin = User::factory()->create([
+                'name' => 'admin',
+                'email' => 'admin@admin.com',
+                'password' => 'admin',
+            ]);
+        }
+        return $admin;
     }
 }
