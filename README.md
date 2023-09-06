@@ -14,3 +14,20 @@
 - Step 3 : in scripts directory run install.sh file
 - Step 4 : open new terminal or tab and open run.sh file
 - Step 6 : Remove your database user and password from .env.example file before pushing
+
+## Services
+
+- Custom image service for upload images using image intervention
+- Custom message service for easily send emails or sms and more for users
+
+## Work history
+
+- write tests for api with php pest
+- write with passport for auth
+- work with spatie role permission
+- work with event listener and jobs
+- work with laravel mail with markdown
+- work with observers
+- work with commands
+- work with gates for authorization
+- work with enums and traits
