@@ -69,8 +69,8 @@ class PaymentApiController extends Controller
 
     public function sendEmailToAdmin($payment): void
     {
-        $body = 'new order submitted';
-        $subject = $payment->user->name . ' submitted new order with amount of ' . $payment->amount . ', which state of payment is ' . $payment->status->value . ' and pay time is ' . $payment->pay_at;
+        $subject = 'new order submitted';
+        $body = $payment->user->name . ' submitted new order with amount of ' . $payment->amount . ', which state of payment is ' . PaymentStatusEnum::from($payment->status->value)->name . ' and pay time is ' . $payment->pay_at;
 
         event(new SendEmailEvent(subject: $subject, body: $body));
     }

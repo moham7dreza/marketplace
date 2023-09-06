@@ -50,9 +50,9 @@ class SubmitOrderCommand extends Command
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getToken(): array
+    public function getToken(): string
     {
         $data = [
             'name' => 'admin',
@@ -65,10 +65,10 @@ class SubmitOrderCommand extends Command
     }
 
     /**
-     * @param array $token
-     * @return int[]
+     * @param string $token
+     * @return string
      */
-    public function addItemToCart(array $token): array
+    public function addItemToCart(string $token): mixed
     {
         $product = Product::factory()->create();
 
@@ -76,14 +76,14 @@ class SubmitOrderCommand extends Command
 
         $cartItem = ShareService::sendHttpPostRequestWithAuth("/api/v1/cart-items/store/{$product->id}", $data, $token);
         dump($cartItem);
-        return $data;
+        return $cartItem;
     }
 
     /**
-     * @param array $token
+     * @param string $token
      * @return array
      */
-    public function submitOrder(array $token): array
+    public function submitOrder(string $token): mixed
     {
         // if select a delivery method for shipping product
         $delivery = ItemDelivery::factory()->create();
@@ -92,14 +92,14 @@ class SubmitOrderCommand extends Command
 
         $order = ShareService::sendHttpPostRequestWithAuth("/api/v1/orders/store", $data, $token);
         dump($order);
-        return $data;
+        return $order;
     }
 
     /**
-     * @param array $token
+     * @param string $token
      * @return mixed
      */
-    public function payment(array $token): mixed
+    public function payment(string $token): mixed
     {
         $data = ['type' => PaymentTypeEnum::online->value, 'gateway' => PaymentGatewayEnum::zarin_pal->value];
 

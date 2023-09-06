@@ -42,15 +42,33 @@ class SendEmailJob implements ShouldQueue
 
     public function send(): void
     {
+        $emailService = $this->setupEmail();
+        $this->sendMessage($emailService);
+    }
+
+    /**
+     * @return EmailService
+     */
+    public function setupEmail(): EmailService
+    {
         $emailService = new EmailService();
         $details = [
-            'title' => $this->subject,
+            'subject' => $this->subject,
             'body' => $this->body
         ];
         $emailService->setDetails($details);
         $emailService->setFrom('noreply@example.com', 'example');
         $emailService->setSubject($this->subject);
         $emailService->setTo($this->email);
+        return $emailService;
+    }
+
+    /**
+     * @param EmailService $emailService
+     * @return void
+     */
+    public function sendMessage(EmailService $emailService): void
+    {
         $messagesService = new MessageService($emailService);
         $messagesService->send();
     }
