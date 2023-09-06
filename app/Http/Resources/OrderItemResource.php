@@ -19,8 +19,8 @@ class OrderItemResource extends JsonResource
             'id' => $this->id,
             'number' => $this->number,
             'amount' => $this->amount,
-            'order' => new OrderResource($this->order),
-            'product' => new ProductResource($this->product),
+//            'order' => new OrderResource($this->order),
+//            'product' => new ProductResource($this->product),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

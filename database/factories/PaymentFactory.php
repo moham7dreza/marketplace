@@ -19,7 +19,7 @@ class PaymentFactory extends Factory
         dump('Run Payment Factory ...');
         return [
             'user_id' => User::query()->first() ?? User::factory(),
-            'amount' => $this->faker->randomFloat(),
+            'amount' => $this->faker->randomFloat(3, 1000, 9999),
             'status' => OrderStatusEnum::random(),
             'type' => PaymentTypeEnum::random(),
             'gateway' => PaymentGatewayEnum::random(),

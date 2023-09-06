@@ -18,7 +18,7 @@ class ItemDeliveryFactory extends Factory
         return [
             'product_id' => Product::factory(),
             'delivery_id' => Delivery::factory(),
-            'amount' => $this->faker->randomFloat(),
+            'amount' => $this->faker->randomFloat(3, 1000, 9999),
         ];
     }
 }

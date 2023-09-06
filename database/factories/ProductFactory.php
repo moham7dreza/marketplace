@@ -16,7 +16,7 @@ class ProductFactory extends Factory
         dump('Run Product Factory ...');
         return [
             'title' => $this->faker->title,
-            'price' => $this->faker->randomFloat(),
+            'price' => $this->faker->randomFloat(3, 1000, 9999),
             'user_id' => User::factory(),
             'approved' => $this->faker->boolean,
         ];
