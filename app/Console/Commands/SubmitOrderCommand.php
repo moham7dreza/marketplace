@@ -36,19 +36,19 @@ class SubmitOrderCommand extends Command
     {
         //******************************** register user and retrieve token
 
-        $token = $this->getToken();
+        ShareService::findOrCreateToken(newUser: true);
 
         //******************************** add item to cart
 
-        $cartItem = $this->addItemToCart($token);
+        $this->addItemToCart();
 
         //******************************** submit initial order for user
 
-        $order = $this->submitOrder($token);
+        $order = $this->submitOrder();
 
         //******************************** pay user submitted order
 
-        $this->payment($token);
+        $this->payment();
 
         //******************************** total report
 
@@ -60,58 +60,40 @@ class SubmitOrderCommand extends Command
     /**
      * @return string
      */
-    public function getToken(): string
-    {
-        $data = [
-            'name' => 'admin',
-            'email' => fake()->unique()->email,
-            'password' => 'admin',
-        ];
-        $registerUser = ShareService::sendHttpPostRequest('/api/v1/register', $data);
-
-        return $registerUser->data->token;
-    }
-
-    /**
-     * @param string $token
-     * @return string
-     */
-    public function addItemToCart(string $token): mixed
+    public function addItemToCart(): mixed
     {
         $product = Product::factory()->create();
 
         $data = ['number' => 3];
 
-        $cartItem = ShareService::sendHttpPostRequestWithAuth("/api/v1/cart-items/store/{$product->id}", $data, $token);
+        $cartItem = ShareService::sendHttpPostRequestWithAuth("/api/v1/cart-items/store/{$product->id}", $data);
         dump($cartItem);
         return $cartItem;
     }
 
     /**
-     * @param string $token
      * @return array
      */
-    public function submitOrder(string $token): mixed
+    public function submitOrder(): mixed
     {
         // if select a delivery method for shipping product
         $delivery = ItemDelivery::factory()->create();
 
         $data = ['delivery_id' => $delivery->delivery_id];
 
-        $order = ShareService::sendHttpPostRequestWithAuth("/api/v1/orders/store", $data, $token);
+        $order = ShareService::sendHttpPostRequestWithAuth("/api/v1/orders/store", $data);
         dump($order);
         return $order;
     }
 
     /**
-     * @param string $token
      * @return mixed
      */
-    public function payment(string $token): mixed
+    public function payment(): mixed
     {
         $data = ['type' => PaymentTypeEnum::online->value, 'gateway' => PaymentGatewayEnum::zarin_pal->value];
 
-        $payment = ShareService::sendHttpPostRequestWithAuth("/api/v1/payments/store", $data, $token);
+        $payment = ShareService::sendHttpPostRequestWithAuth("/api/v1/payments/store", $data);
         dump($payment);
 
         return $payment;
@@ -119,6 +101,7 @@ class SubmitOrderCommand extends Command
 
     private function report($order_id): void
     {
+        dump('************************************ Total report');
         $order = Order::query()->findOrFail($order_id);
         $payment = $order->payment;
         dump('Payment amount is : ' . number_format($payment->amount));
@@ -130,6 +113,6 @@ class SubmitOrderCommand extends Command
         dump('Order items count : ' . $order->items->count());
         dump('Order with delivery method : ' . ($order->delivery_id ? 'Yes' : 'No'));
         dump('See you later ...');
-        dump('');
+        dump('*************************************************************');
     }
 }

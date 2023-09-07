@@ -29,7 +29,7 @@
 - Step 7 : add cart items to order items and update each item amount according to delivery amount
 - Step 8 : find system admin and send email to it about submitted order
 - Step 9 : display details to user in each step
-- Step 10 : display and overall report to user
+- Step 10 : display overall report to user
 
 ## Services
 

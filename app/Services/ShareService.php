@@ -37,11 +37,11 @@ class ShareService
         return json_decode(Http::acceptJson()->post('http://127.0.0.1:8000' . $url, $data));
     }
 
-    public static function sendHttpPostRequestWithAuth($url, $data, $token)
+    public static function sendHttpPostRequestWithAuth($url, $data)
     {
         return json_decode(
             Http::acceptJson()
-                ->withHeader('Authorization', 'Bearer ' . $token)
+                ->withHeader('Authorization', 'Bearer ' . ShareService::findOrCreateToken())
                 ->post('http://127.0.0.1:8000' . $url, $data)
         );
     }
@@ -60,12 +60,22 @@ class ShareService
         return $admin;
     }
 
-    public static function findOrCreateToken()
+    public static function findOrCreateToken($newUser = false)
     {
+        $registerUser = null;
+        // find or create a new setting
         $setting = Setting::query()->first();
         if (!$setting) {
             $registerUser = self::registerUser();
             $setting = self::createNewSetting($registerUser);
+        }
+
+        // if new user registered setting should be updated
+        if ($newUser) {
+            if (!$registerUser) {
+                $registerUser = self::registerUser();
+            }
+            self::updateSetting($registerUser, $setting);
         }
 
         return $setting->brear_token;
@@ -95,5 +105,17 @@ class ShareService
             'current_user_id' => $registerUser->data->user->id,
             'brear_token' => $registerUser->data->token,
         ]);
+    }
+
+    /**
+     * @param mixed $registerUser
+     * @param Model|Builder|null $setting
+     * @return void
+     */
+    public static function updateSetting(mixed $registerUser, Model|Builder|null $setting): void
+    {
+        $setting->current_user_id = $registerUser->data->user->id;
+        $setting->brear_token = $registerUser->data->token;
+        $setting->save();
     }
 }
