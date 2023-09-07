@@ -16,6 +16,7 @@
 - Step 5 : Run command : php artisan queue:work
 - Step 6 : Run command : php artisan app:submit-order for run process
 - Step 7 : Remove your database user and password from .env.example file before pushing
+- Step 8 : Run command : composer test for run all tests
 
 ## submit-order command description
 
