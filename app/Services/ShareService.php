@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Setting;
 use App\Models\User;
 use App\Traits\FileUploadTrait;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -11,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 class ShareService
 {
     use FileUploadTrait;
-
-    public const brear_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTIyZTI2ZDEwNjBkNjJhZDJkZmQ1YmZhYzJiYWI2OGYxOTYxODcwNjM5NWUxYjRhOGY1ZTQ5OWFjZTY0ZDI2NWRkYjZjYmFhZDVkM2ZiYzQiLCJpYXQiOjE2OTM5ODQwMzUuMjM2NDQ0LCJuYmYiOjE2OTM5ODQwMzUuMjM2NDQ2LCJleHAiOjE3MjU2MDY0MzUuMjI3OTM0LCJzdWIiOiI3MTAiLCJzY29wZXMiOltdfQ.M_hhFo0l1U4dYjpDpwksyI8owaQvG-roIBTaSQNsrzZtJzkLgos2S0MRXUxU6WpytQ1dLNJm4J-l6Yd1MG_rVR8AHJvCspT-H8aU-cs_2AeuejTHRxI199cFjyil51VHPLPpVJ8K3xkeIBCCUrq4H5a7TL2TSep6BL8huk92rqgURDKIk2_gAYEwGYUFKsI7T7QLEssTxzqLJmAkh4vdqTwjR2XhKzmAFTuhw9-q-cjNVp4ENBE66eLhkcg2W_vCOpaEQ4PYNKL2oHi7K0WLldzQIG7Ekwk9EVUcWXQ2tcAb4XcUu9uSqjYa3Y9hVjMuX4rx-GF-bWgTBnIGfN9XjA3-S1wBYLG8jIcnN54DhwAatepL0chFihuyBmYcWz4P_txQrZMosnh7j9NvJOvFL2ThJctiIjqzcwRayGJc6TjmNaZTyz3G4LR_8g0z2GOSqVokxTzx0egqIGxAN32tmfmIvAscb1zQ0TZzRdvnOTX4Fjjy8pgqdeE2cKZkFv8clk499teNtoNTlU4q9zEzbYSHtX7dasEbFfTkugjU02jb3hxcKYFuKqt3FyrEkgzWY_sk6DOQafTuqrZTcSjpefpRrOH9ZXq4JLQWCj4b40DfpLpU3Z2oB80IQsqqOS08-auB4FIDno4aM2pW1v1iZxKOVCCDxZ8AjBMW9GB3LvY";
 
     public static function replaceNewLineWithTag($text): array|string
     {
@@ -57,5 +58,42 @@ class ShareService
             ]);
         }
         return $admin;
+    }
+
+    public static function findOrCreateToken()
+    {
+        $setting = Setting::query()->first();
+        if (!$setting) {
+            $registerUser = self::registerUser();
+            $setting = self::createNewSetting($registerUser);
+        }
+
+        return $setting->brear_token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function registerUser(): mixed
+    {
+        $data = [
+            'name' => 'admin',
+            'email' => fake()->unique()->email,
+            'password' => 'admin',
+        ];
+        return ShareService::sendHttpPostRequest('/api/v1/register', $data);
+    }
+
+    /**
+     * @param mixed $registerUser
+     * @return Builder|Model
+     */
+    public static function createNewSetting(mixed $registerUser): Builder|Model
+    {
+        return Setting::query()->create([
+            'title' => fake()->title,
+            'current_user_id' => $registerUser->data->user->id,
+            'brear_token' => $registerUser->data->token,
+        ]);
     }
 }
