@@ -6,13 +6,20 @@ use App\Models\Setting;
  * @param $data
  * @return void
  */
-function updateSetting($data): void
+function findOrCreateSetting($data): void
 {
-    Setting::query()->create([
-        'title' => fake()->title,
-        'current_user_id' => $data['user']['id'],
-        'brear_token' => $data['token']
-    ]);
+    $setting = Setting::query()->first();
+    if (!$setting) {
+        Setting::query()->create([
+            'title' => fake()->title,
+            'current_user_id' => $data['user']['id'],
+            'brear_token' => $data['token']
+        ]);
+    } else {
+        $setting->brear_token = $data['token'];
+        $setting->current_user_id = $data['user']['id'];
+        $setting->save();
+    }
 }
 
 it('register user', function () {
@@ -22,7 +29,7 @@ it('register user', function () {
         'password' => fake()->password,
     ];
     $response = $this->postJson("/api/v1/register", $data);
-    updateSetting($response['data']);
+    findOrCreateSetting($response['data']);
     print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'user created successfully']);
 });
