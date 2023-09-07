@@ -9,11 +9,26 @@
 
 ## Project run structure
 
-- Step 1 : create database with name marketplace
+- Step 1 : create database with name marketplace or every thing you want and modify it in .env.example file
 - Step 2 : Enter your database user and password in .env.example file
-- Step 3 : in scripts directory run install.sh file
-- Step 4 : open new terminal or tab and open run.sh file
-- Step 6 : Remove your database user and password from .env.example file before pushing
+- Step 3 : Run install.sh file for setup project
+- Step 4 : Run command : php artisan serve
+- Step 5 : Run command : php artisan queue:work
+- Step 6 : Run command : php artisan app:submit-order for run process
+- Step 7 : Remove your database user and password from .env.example file before pushing
+
+## submit-order command description
+
+- Step 1 : user try to add items to cart
+- Step 2 : user select delivery method for shipping products
+- Step 3 : user submit order with unchecked status
+- Step 4 : find user order and try to pay order amount
+- Step 5 : set order status to confirmed and payment status to paid
+- Step 6 : after successful payment delete user cart items
+- Step 7 : add cart items to order items and update each item amount according to delivery amount
+- Step 8 : find system admin and send email to it about submitted order
+- Step 9 : display details to user in each step
+- Step 10 : display and overall report to user
 
 ## Services
 
