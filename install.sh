@@ -6,4 +6,3 @@ cp .env .env.testing
 php artisan migrate --seed
 php artisan passport:install
 php artisan optimize:clear
-php artisan serve
