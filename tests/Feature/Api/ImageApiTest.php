@@ -10,7 +10,7 @@ it('image upload', function () {
         'image' => UploadedFile::fake()->image('image.png'),
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/images/store/{$product->id}", $data);
     print_head($response);

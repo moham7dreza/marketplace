@@ -10,7 +10,7 @@ it('submit payment', function () {
         'gateway' => PaymentGatewayEnum::random(),
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/payments/store", $data);
     print_head($response);

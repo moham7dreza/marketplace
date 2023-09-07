@@ -10,7 +10,7 @@ it('add comment for product', function () {
         'body' => 'test comment',
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/comments/store/{$product->id}", $data);
     print_head($response);
@@ -24,7 +24,7 @@ it('add reply for comment', function () {
         'body' => 'test reply',
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/comments/reply/{$comment->id}", $data);
     print_head($response);

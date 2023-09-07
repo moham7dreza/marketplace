@@ -9,7 +9,7 @@ it('add item to cart', function () {
         'number' => fake()->numberBetween(1, 5),
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])
         ->postJson("/api/v1/cart-items/store/{$product->id}", $data);

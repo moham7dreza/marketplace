@@ -10,7 +10,7 @@ it('add product', function () {
         'price' => 9999.999,
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/products/store", $data);
     print_head($response);
@@ -25,7 +25,7 @@ it('products index', function () {
         'max_price' => fake()->numberBetween(10000, 99999),
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->getJson("/api/v1/products/index", $data);
     print_head($response);
@@ -35,7 +35,7 @@ it('products index', function () {
 it('destroy product', function () {
     $product = Product::factory()->create();
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->deleteJson("/api/v1/products/destroy/{$product->id}");
     print_head($response);

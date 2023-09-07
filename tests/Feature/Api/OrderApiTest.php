@@ -8,7 +8,7 @@ it('order create', function () {
         'delivery_id' => Delivery::factory()->create()->id,
     ];
     $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . ShareService::brear_token,
+        'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/orders/store", $data);
     print_head($response);
