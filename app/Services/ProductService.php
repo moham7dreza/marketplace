@@ -70,7 +70,10 @@ class ProductService
         return $items
             // when search for key
             ->when($request->search, function ($items) use ($request) {
-                $items->where('title', 'like', "%{$request->search}%");
+                $items->where('title', 'like', "%{$request->search}%")
+                    ->orWhereHas('itemDelivery', function ($items) use ($request) {
+                        $items->where('title', 'like', "%{$request->search}%");
+                    });
             })
             ->when($request->min_price, function ($items) use ($request) {
                 $items->where('price', '>=', $request->min_price);

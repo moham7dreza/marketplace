@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -30,6 +31,11 @@ class Product extends Model
     public function delivery(): HasOne
     {
         return $this->hasOne(ItemDelivery::class);
+    }
+
+    public function itemDelivery(): HasOneThrough
+    {
+        return $this->hasOneThrough(ItemDelivery::class, Delivery::class, 'id', 'product_id', 'id', 'id');
     }
 
     public function user(): BelongsTo
