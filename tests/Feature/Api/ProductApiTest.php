@@ -13,7 +13,7 @@ it('add product', function () {
         'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/products/store", $data);
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'product created successfully']);
 });
 
@@ -28,7 +28,7 @@ it('products index', function () {
         'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->getJson("/api/v1/products/index", $data);
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'products index']);
 });
 
@@ -38,7 +38,7 @@ it('destroy product', function () {
         'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->deleteJson("/api/v1/products/destroy/{$product->id}");
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson([
         'status' => 'success',
 //        'message' => 'product destroyed successfully',

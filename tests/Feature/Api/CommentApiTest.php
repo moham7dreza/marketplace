@@ -13,7 +13,7 @@ it('add comment for product', function () {
         'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/comments/store/{$product->id}", $data);
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'comment created successfully']);
     $this->assertDatabaseHas('products', ['id' => $product->id]);
 });
@@ -27,7 +27,7 @@ it('add reply for comment', function () {
         'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/comments/reply/{$comment->id}", $data);
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'reply created successfully']);
     $this->assertDatabaseHas('comments', ['id' => $comment->id]);
 });

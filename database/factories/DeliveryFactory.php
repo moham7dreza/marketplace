@@ -12,7 +12,7 @@ class DeliveryFactory extends Factory
 
     public function definition(): array
     {
-        dump('Run Delivery Factory ...');
+        //dump('Run Delivery Factory ...');
         return [
             'title' => $this->faker->jobTitle,
             'delivery_at' => $this->faker->dateTime,

@@ -30,7 +30,7 @@ it('register user', function () {
     ];
     $response = $this->postJson("/api/v1/register", $data);
     findOrCreateSetting($response['data']);
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'user created successfully']);
 });
 
@@ -40,12 +40,12 @@ it('register user', function () {
 //        'password' => 'admin',
 //    ];
 //    $response = $this->postJson("/api/v1/login", $data);
-//    print_head($response);
+//    //print_head($response);
 //    $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'login successfully']);
 //});
 //
 //it('logout user', function () {
 //    $response = $this->getJson("/api/v1/logout");
-//    print_head($response);
+//    //print_head($response);
 //    $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'logout successfully']);
 //});

@@ -13,7 +13,7 @@ class ImageFactory extends Factory
 
     public function definition(): array
     {
-        dump('Run Image Factory ...');
+        //dump('Run Image Factory ...');
         return [
             'product_id' => Product::factory(),
             'image' => $this->faker->image

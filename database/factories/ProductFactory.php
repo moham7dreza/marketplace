@@ -13,7 +13,7 @@ class ProductFactory extends Factory
 
     public function definition(): array
     {
-        dump('Run Product Factory ...');
+        //dump('Run Product Factory ...');
         return [
             'title' => $this->faker->title,
             'price' => $this->faker->randomFloat(3, 1000, 9999),

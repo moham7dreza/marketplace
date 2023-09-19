@@ -13,6 +13,6 @@ it('image upload', function () {
         'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/images/store/{$product->id}", $data);
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'image created successfully']);
 });

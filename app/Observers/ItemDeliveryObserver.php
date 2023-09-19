@@ -11,7 +11,7 @@ class ItemDeliveryObserver
      */
     public function created(ItemDelivery $itemDelivery): void
     {
-        dump('Product Price Updating ...');
+        //dump('Product Price Updating ...');
         $itemDelivery->product()->increment('price', $itemDelivery->amount);
     }
 
@@ -20,7 +20,7 @@ class ItemDeliveryObserver
      */
     public function updated(ItemDelivery $itemDelivery): void
     {
-        dump('Product Price Updating ...');
+        //dump('Product Price Updating ...');
         $itemDelivery->product()->increment('price', $itemDelivery->amount);
     }
 
@@ -29,7 +29,7 @@ class ItemDeliveryObserver
      */
     public function deleted(ItemDelivery $itemDelivery): void
     {
-        dump('Product Price Updating ...');
+        //dump('Product Price Updating ...');
         $itemDelivery->product()->decrement('price', $itemDelivery->amount);
     }
 

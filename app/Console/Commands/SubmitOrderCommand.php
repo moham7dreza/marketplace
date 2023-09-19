@@ -52,9 +52,9 @@ class SubmitOrderCommand extends Command
 
         //******************************** total report
 
-        $this->report($order->data->id);
+//        $this->report($order->data->id);
 
-        dump('Finish');
+        //dump('Finish');
     }
 
     /**
@@ -67,7 +67,7 @@ class SubmitOrderCommand extends Command
         $data = ['number' => 3];
 
         $cartItem = ShareService::sendHttpPostRequestWithAuth("/api/v1/cart-items/store/{$product->id}", $data);
-        dump($cartItem);
+        //dump($cartItem);
         return $cartItem;
     }
 
@@ -82,7 +82,7 @@ class SubmitOrderCommand extends Command
         $data = ['delivery_id' => $delivery->delivery_id];
 
         $order = ShareService::sendHttpPostRequestWithAuth("/api/v1/orders/store", $data);
-        dump($order);
+        //dump($order);
         return $order;
     }
 
@@ -94,7 +94,7 @@ class SubmitOrderCommand extends Command
         $data = ['type' => PaymentTypeEnum::online->value, 'gateway' => PaymentGatewayEnum::zarin_pal->value];
 
         $payment = ShareService::sendHttpPostRequestWithAuth("/api/v1/payments/store", $data);
-        dump($payment);
+        //dump($payment);
 
         return $payment;
     }

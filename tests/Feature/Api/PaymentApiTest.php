@@ -13,6 +13,6 @@ it('submit payment', function () {
         'Authorization' => 'Bearer ' . ShareService::findOrCreateToken(),
         'Accept' => 'application/json',
     ])->postJson("/api/v1/payments/store", $data);
-    print_head($response);
+    //print_head($response);
     $response->assertStatus(201)->assertJson(['status' => 'success', 'message' => 'payment submitted successfully']);
 });

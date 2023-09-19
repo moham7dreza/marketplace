@@ -16,7 +16,7 @@ class OrderFactory extends Factory
 
     public function definition(): array
     {
-        dump('Run Order Factory ...');
+        //dump('Run Order Factory ...');
         return [
             'user_id' => User::factory(),
             'amount' => $this->faker->randomFloat(3, 1000, 9999),

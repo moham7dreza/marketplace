@@ -16,7 +16,7 @@ class PaymentFactory extends Factory
 
     public function definition(): array
     {
-        dump('Run Payment Factory ...');
+        //dump('Run Payment Factory ...');
         return [
             'user_id' => User::query()->first() ?? User::factory(),
             'amount' => $this->faker->randomFloat(3, 1000, 9999),

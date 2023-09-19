@@ -17,7 +17,7 @@ class PermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        dump('permissions and roles assigning to super admin');
+        //dump('permissions and roles assigning to super admin');
 
         // all system permissions
         foreach (PermissionEnum::cases() as $permission) {
