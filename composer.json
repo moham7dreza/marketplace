@@ -17,6 +17,7 @@
         "laravel/framework": "^10.10",
         "laravel/passport": "*",
         "laravel/sanctum": "^3.2",
+        "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.8",
         "spatie/laravel-permission": "^5.11"
     },
@@ -64,7 +65,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
