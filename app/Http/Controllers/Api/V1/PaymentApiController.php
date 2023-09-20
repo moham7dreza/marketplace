@@ -31,6 +31,40 @@ class PaymentApiController extends Controller
         $this->orderService = $orderService;
     }
 
+
+    /**
+     * @OA\Post(
+     ** path="/api/v1/payments/store",
+     *  tags={"Payment Module"},
+     *   security={{"sanctum":{}}},
+     *  description="store user payment",
+     * @OA\RequestBody(
+     *    required=true,
+     *         @OA\MediaType(
+     *           mediaType="multipart/form-data",
+     *           @OA\Schema(
+     *          @OA\Property(
+     *                   property="type",
+     *                   description="enter payment type",
+     *                   type="string",
+     *            ),@OA\Property(
+     *                   property="gateway",
+     *                   description="enter payment gateway",
+     *                   type="string",
+     *            ),
+     *       )
+     * )
+     * ),
+     *   @OA\Response(
+     *      response=200,
+     *      description="Data saved",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   )
+     *)
+     *
+     */
     public function store(PaymentRequest $request): JsonResponse
     {
         $order = $this->orderService->findUserUncheckedOrder();

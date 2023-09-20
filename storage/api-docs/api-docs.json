@@ -1,0 +1,448 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Marketplace Api Routes List",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api": {},
+        "/api/v1/cart-items/store/{product}": {
+            "post": {
+                "tags": [
+                    "Cart Module"
+                ],
+                "description": "add item to cart",
+                "operationId": "e0499999c879c4f0bf029865966d3c67",
+                "parameters": [
+                    {
+                        "name": "item",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "number": {
+                                        "description": "item number count",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Its Ok",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/comments/store/{product}": {
+            "post": {
+                "tags": [
+                    "Comment Module"
+                ],
+                "description": "save user comment for item",
+                "operationId": "be4b76b00fdb4543440ef6e4af8b766b",
+                "parameters": [
+                    {
+                        "name": "item",
+                        "in": "path",
+                        "description": "Enter item id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "parent_id": {
+                                        "description": "comment parent id",
+                                        "type": "integer"
+                                    },
+                                    "body": {
+                                        "description": "user comment text",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data saved",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/comments/reply/{comment}": {
+            "post": {
+                "tags": [
+                    "Comment Module"
+                ],
+                "description": "store reply for comment",
+                "operationId": "9c5058ea708e89044083d601802cb408",
+                "parameters": [
+                    {
+                        "name": "comment",
+                        "in": "path",
+                        "description": "Enter comment id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "body": {
+                                        "description": "user comment text",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data saved",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/images/store/{product}": {
+            "post": {
+                "tags": [
+                    "Image Module"
+                ],
+                "description": "store image for product",
+                "operationId": "fd427242080300df68b1bea433212589",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Enter product id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "product image",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data saved",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orders/store": {
+            "post": {
+                "tags": [
+                    "Order Module"
+                ],
+                "description": "store user order",
+                "operationId": "9a248948a7b73a56f0629753ec6b7526",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "delivery_id": {
+                                        "description": "enter delivery_id",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data saved",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payments/store": {
+            "post": {
+                "tags": [
+                    "Payment Module"
+                ],
+                "description": "store user payment",
+                "operationId": "5c6bb0a43b3d3be35c1474f4158e6692",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "description": "enter payment type",
+                                        "type": "string"
+                                    },
+                                    "gateway": {
+                                        "description": "enter payment gateway",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data saved",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/index": {
+            "get": {
+                "tags": [
+                    "Product Module"
+                ],
+                "description": "product index page",
+                "operationId": "56d20a9b01e767395c300aae58c3c8ef",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "search": {
+                                        "description": "Enter search key ...",
+                                        "type": "string"
+                                    },
+                                    "sort": {
+                                        "description": "Enter sorting type 1:most seller, 2:most visited, 3:newest, 4:cheapest, 5:expensive, 6:popular, 7:hasAmazingSale",
+                                        "type": "string"
+                                    },
+                                    "min_price": {
+                                        "description": "Enter min_price",
+                                        "type": "string"
+                                    },
+                                    "max_price": {
+                                        "description": "Enter max_price",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Its Ok",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/store": {
+            "post": {
+                "tags": [
+                    "Product Module"
+                ],
+                "description": "product index page",
+                "operationId": "bf9e8a281f6a45181fe7e884b3183f8e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "Enter title",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Enter price",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Its Ok",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/products/destroy/{product}": {
+            "delete": {
+                "tags": [
+                    "Product Module"
+                ],
+                "description": "delete product",
+                "operationId": "656a5bb038c34315af189d5bfbc2ea19",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Its Ok",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/register": {
+            "post": {
+                "tags": [
+                    "Auth Module"
+                ],
+                "description": "register user",
+                "operationId": "3b03d1765cb86c7d370861cd1e9a1218",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Enter name",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Enter email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Enter password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Its Ok",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

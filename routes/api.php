@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\V1\CartItemApiController;
 use App\Http\Controllers\Api\V1\CommentApiController;
-use App\Http\Controllers\Api\V1\FilterApiController;
 use App\Http\Controllers\Api\V1\ImageApiController;
 use App\Http\Controllers\Api\V1\LoginApiController;
 use App\Http\Controllers\Api\V1\OrderApiController;

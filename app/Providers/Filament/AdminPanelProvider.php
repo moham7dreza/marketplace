@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -53,6 +54,26 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->navigationItems([
+                NavigationItem::make()
+                    ->label(fn(): string => __('Api Routes'))
+                    ->url('/api/docs', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->group('Tools')
+                    ->sort(1),
+                NavigationItem::make()
+                    ->label(fn(): string => __('Telescope'))
+                    ->url('/telescope', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-magnifying-glass-circle')
+                    ->group('Tools')
+                    ->sort(2),
+                NavigationItem::make()
+                    ->label(fn(): string => __('Log viewer'))
+                    ->url('/log-viewer', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-exclamation-triangle')
+                    ->group('Tools')
+                    ->sort(2),
             ]);
     }
 }
