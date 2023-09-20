@@ -1,6 +1,6 @@
 sudo ./fix-permissions.sh
 cp .env.example .env
-composer install --ignore-platform-reqs
+composer install
 php artisan key:generate
 cp .env .env.testing
 php artisan migrate --seed
